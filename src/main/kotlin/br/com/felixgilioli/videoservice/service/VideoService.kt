@@ -1,5 +1,6 @@
 package br.com.felixgilioli.videoservice.service
 
+import br.com.felixgilioli.videoservice.dto.VideoProcessingMessage
 import br.com.felixgilioli.videoservice.dto.request.CreateVideoRequest
 import br.com.felixgilioli.videoservice.dto.request.UpdateVideoRequest
 import br.com.felixgilioli.videoservice.entity.Video
@@ -13,7 +14,11 @@ import java.time.LocalDateTime
 import java.util.*
 
 @Service
-class VideoService(private val repository: VideoRepository, private val storageService: StorageService) {
+class VideoService(
+    private val repository: VideoRepository,
+    private val storageService: StorageService,
+    private val sqsService: SqsService
+) {
 
     fun create(userId: String, request: CreateVideoRequest): Video {
         val video = Video(userId = userId, title = request.title, description = request.description)
@@ -51,12 +56,22 @@ class VideoService(private val repository: VideoRepository, private val storageS
         val video = findByIdAndUser(id, userId)
         val key = "videos/${video.id}/${file.originalFilename}"
         val url = storageService.upload(key, file)
-        return repository.save(
+        val updatedVideo = repository.save(
             video.copy(
                 videoUrl = url,
                 status = VideoStatus.PROCESSING,
                 updatedAt = LocalDateTime.now()
             )
         )
+
+        sqsService.sendVideoProcessingMessage(
+            VideoProcessingMessage(
+                videoId = updatedVideo.id!!,
+                userId = updatedVideo.userId,
+                videoUrl = url
+            )
+        )
+
+        return updatedVideo
     }
 }

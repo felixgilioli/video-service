@@ -27,3 +27,10 @@ storage:
   access-key: minioadmin
   secret-key: minioadmin
   bucket: videos
+
+sqs:
+  endpoint: http://localhost:4566
+  region: us-east-1
+  access-key: test
+  secret-key: test
+  video-processing-queue: video-processing-queue
