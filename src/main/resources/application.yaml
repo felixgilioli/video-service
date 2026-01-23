@@ -21,3 +21,9 @@ management:
     web:
       exposure:
         include: health,info
+
+storage:
+  endpoint: http://localhost:9000
+  access-key: minioadmin
+  secret-key: minioadmin
+  bucket: videos
