@@ -1,6 +1,7 @@
 package br.com.felixgilioli.videoservice.controller
 
 import br.com.felixgilioli.videoservice.dto.request.CreateVideoRequest
+import br.com.felixgilioli.videoservice.dto.request.UpdateVideoRequest
 import br.com.felixgilioli.videoservice.dto.response.VideoResponse
 import br.com.felixgilioli.videoservice.dto.response.toResponse
 import br.com.felixgilioli.videoservice.service.VideoService
@@ -22,4 +23,20 @@ class VideoController(private val service: VideoService) {
 
     @GetMapping("/{id}")
     fun findById(@PathVariable id: UUID): VideoResponse = service.findById(id).toResponse()
+
+    @GetMapping
+    fun findByUser(@RequestHeader("X-User-Id") userId: String): List<VideoResponse> =
+        service.findByUser(userId).map { it.toResponse() }
+
+    @PutMapping("/{id}")
+    fun update(
+        @PathVariable id: UUID,
+        @RequestHeader("X-User-Id") userId: String,
+        @Valid @RequestBody request: UpdateVideoRequest
+    ): VideoResponse = service.update(id, userId, request).toResponse()
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun delete(@PathVariable id: UUID, @RequestHeader("X-User-Id") userId: String) =
+        service.delete(id, userId)
 }
