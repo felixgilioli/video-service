@@ -4,6 +4,10 @@ server:
 spring:
   application:
     name: video-service
+  servlet:
+    multipart:
+      max-file-size: 500MB
+      max-request-size: 500MB
   datasource:
     url: jdbc:postgresql://localhost:5433/video_db
     username: postgres

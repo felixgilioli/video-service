@@ -22,6 +22,6 @@ class StorageService(
                 .build(),
             RequestBody.fromInputStream(file.inputStream, file.size)
         )
-        return "${properties.endpoint}/${properties.bucket}/$key"
+        return "${properties.endpoint}/$key"
     }
 }
