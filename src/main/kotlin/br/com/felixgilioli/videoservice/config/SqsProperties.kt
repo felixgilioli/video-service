@@ -8,5 +8,6 @@ data class SqsProperties(
     val region: String,
     val accessKey: String,
     val secretKey: String,
-    val videoProcessingQueue: String
+    val videoProcessingQueue: String,
+    val videoStatusQueue: String
 )

@@ -1,0 +1,1 @@
+ALTER TABLE videos ADD COLUMN zip_url VARCHAR(500);

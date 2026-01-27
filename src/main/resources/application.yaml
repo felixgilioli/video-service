@@ -38,3 +38,4 @@ sqs:
   access-key: test
   secret-key: test
   video-processing-queue: video-processing-queue
+  video-status-queue: video-status-queue
