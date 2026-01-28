@@ -73,6 +73,14 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     command: -config.file=/etc/promtail/config.yml
 
+  api-gateway:
+    image: felixgilioli/video-api-gateway
+    container_name: video-api-gateway
+    ports:
+      - "8080:8080"
+    depends_on:
+      - video-service
+
   video-service:
     image: felixgilioli/video-service
     container_name: video-service
@@ -88,6 +96,28 @@ services:
       - postgres-video
       - minio
       - localstack
+
+  video-processor-worker:
+    image: felixgilioli/video-processor-worker
+    container_name: video-processor-worker
+    environment:
+      - S3_ENDPOINT=http://minio:9000
+      - SQS_ENDPOINT=http://localstack:4566
+      - SNS_ENDPOINT=http://localstack:4566
+    depends_on:
+      - minio
+      - localstack
+
+  notification-service:
+    image: felixgilioli/notification-service
+    container_name: notification-service
+    environment:
+      - SQS_ENDPOINT=http://localstack:4566
+      - MAIL_USERNAME=${MAIL_USERNAME}
+      - MAIL_PASSWORD=${MAIL_PASSWORD}
+    depends_on:
+      - localstack
+
 volumes:
   video_pg_data:
   minio_data:
