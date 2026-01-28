@@ -31,6 +31,7 @@ dependencies {
 	implementation("tools.jackson.module:jackson-module-kotlin")
 	implementation("software.amazon.awssdk:s3:2.25.60")
 	implementation("software.amazon.awssdk:sqs:2.25.60")
+	implementation("org.springframework.boot:spring-boot-starter-opentelemetry")
 	runtimeOnly("org.postgresql:postgresql")
 	runtimeOnly("io.micrometer:micrometer-registry-prometheus")
 	testImplementation("org.springframework.boot:spring-boot-starter-actuator-test")
