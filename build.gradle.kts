@@ -32,6 +32,7 @@ dependencies {
 	implementation("software.amazon.awssdk:s3:2.25.60")
 	implementation("software.amazon.awssdk:sqs:2.25.60")
 	runtimeOnly("org.postgresql:postgresql")
+	runtimeOnly("io.micrometer:micrometer-registry-prometheus")
 	testImplementation("org.springframework.boot:spring-boot-starter-actuator-test")
 	testImplementation("org.springframework.boot:spring-boot-starter-data-jpa-test")
 	testImplementation("org.springframework.boot:spring-boot-starter-flyway-test")
