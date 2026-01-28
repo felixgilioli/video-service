@@ -1,0 +1,4 @@
+services:
+  video-service:
+    build: .
+    image: felixgilioli/video-service
