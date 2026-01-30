@@ -16,16 +16,17 @@ class SqsService(
 ) {
 
     fun sendVideoProcessingMessage(message: VideoProcessingMessage) {
-        val traceId = Span.current().spanContext.traceId
+        val span = Span.current()
+        val traceparent = "00-${span.spanContext.traceId}-${span.spanContext.spanId}-01"
 
         sqsClient.sendMessage {
             it.queueUrl(getQueueUrl())
                 .messageBody(objectMapper.writeValueAsString(message))
                 .messageAttributes(
                     mapOf(
-                        "traceId" to MessageAttributeValue.builder()
+                        "traceparent" to MessageAttributeValue.builder()
                             .dataType("String")
-                            .stringValue(traceId)
+                            .stringValue(traceparent)
                             .build()
                     )
                 )
