@@ -4,6 +4,8 @@ plugins {
 	id("org.springframework.boot") version "4.1.0-M1"
 	id("io.spring.dependency-management") version "1.1.7"
 	kotlin("plugin.jpa") version "2.3.0"
+	id("org.sonarqube") version "7.2.2.6593"
+	jacoco
 }
 
 group = "br.com.felixgilioli"
@@ -57,4 +59,25 @@ allOpen {
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+	finalizedBy(tasks.jacocoTestReport)
+}
+
+sonar {
+	properties {
+		property("sonar.projectKey", "felixgilioli_tcc-pagamento-service")
+		property("sonar.organization", "felixgilioli")
+	}
+}
+
+jacoco {
+	toolVersion = "0.8.13"
+}
+
+tasks.jacocoTestReport {
+	dependsOn(tasks.test)
+	reports {
+		xml.required.set(true)
+		html.required.set(true)
+		csv.required.set(false)
+	}
 }
