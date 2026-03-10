@@ -63,10 +63,10 @@ class VideoStatusConsumer(
                 videoService.updateStatus(
                     videoId = event.videoId,
                     status = VideoStatus.valueOf(event.status),
-                    zipUrl = event.zipUrl
+                    zipUrl = event.zipUrl,
+                    firstFrameUrl = event.firstFrameUrl
                 )
 
-                deleteMessage(message)
                 logger.info("Status atualizado: ${event.videoId}")
             }
         } catch (e: Exception) {
@@ -74,6 +74,7 @@ class VideoStatusConsumer(
             span.setStatus(StatusCode.ERROR, e.message ?: "Erro desconhecido")
             logger.error("Erro ao processar mensagem", e)
         } finally {
+            deleteMessage(message)
             span.end()
         }
     }

@@ -24,5 +24,6 @@ data class Video(
     @Column(nullable = false)
     val updatedAt: LocalDateTime = LocalDateTime.now(),
     val videoUrl: String? = null,
-    val zipUrl: String? = null
+    val zipUrl: String? = null,
+    val firstFrameUrl: String? = null
 )

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
 import software.amazon.awssdk.core.sync.RequestBody
 import software.amazon.awssdk.services.s3.S3Client
+import software.amazon.awssdk.services.s3.model.ObjectCannedACL
 import software.amazon.awssdk.services.s3.model.PutObjectRequest
 
 @Service
@@ -19,9 +20,10 @@ class StorageService(
                 .bucket(properties.bucket)
                 .key(key)
                 .contentType(file.contentType)
+                .acl(ObjectCannedACL.PUBLIC_READ)
                 .build(),
             RequestBody.fromInputStream(file.inputStream, file.size)
         )
-        return "${properties.endpoint}/$key"
+        return "${properties.endpoint}/${properties.bucket}/$key"
     }
 }

@@ -7,7 +7,8 @@ data class VideoCompletedEvent(
     val videoId: UUID,
     val userId: String,
     val status: String,
-    val zipUrl: String?
+    val zipUrl: String?,
+    val firstFrameUrl: String?
 )
 
 data class SnsMessage(

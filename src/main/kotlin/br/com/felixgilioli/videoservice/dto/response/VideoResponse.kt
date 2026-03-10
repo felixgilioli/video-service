@@ -11,7 +11,10 @@ data class VideoResponse(
     val description: String?,
     val status: VideoStatus,
     val userId: String,
-    val createdAt: LocalDateTime
+    val createdAt: LocalDateTime,
+    val zipUrl: String? = null,
+    val firstFrameUrl: String? = null,
+    val videoUrl: String? = null
 )
 
-fun Video.toResponse() = VideoResponse(id!!, title, description, status, userId, createdAt)
+fun Video.toResponse() = VideoResponse(id!!, title, description, status, userId, createdAt, zipUrl, firstFrameUrl, videoUrl)

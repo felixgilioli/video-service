@@ -19,7 +19,7 @@ class VideoController(private val service: VideoService) {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     fun create(
-        @RequestHeader("X-User-Id") userId: String,
+        @RequestHeader("X-User-Email") userId: String,
         @Valid @RequestBody request: CreateVideoRequest
     ): VideoResponse = service.create(userId, request).toResponse()
 
@@ -27,25 +27,25 @@ class VideoController(private val service: VideoService) {
     fun findById(@PathVariable id: UUID): VideoResponse = service.findById(id).toResponse()
 
     @GetMapping
-    fun findByUser(@RequestHeader("X-User-Id") userId: String): List<VideoResponse> =
+    fun findByUser(@RequestHeader("X-User-Email") userId: String): List<VideoResponse> =
         service.findByUser(userId).map { it.toResponse() }
 
     @PutMapping("/{id}")
     fun update(
         @PathVariable id: UUID,
-        @RequestHeader("X-User-Id") userId: String,
+        @RequestHeader("X-User-Email") userId: String,
         @Valid @RequestBody request: UpdateVideoRequest
     ): VideoResponse = service.update(id, userId, request).toResponse()
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun delete(@PathVariable id: UUID, @RequestHeader("X-User-Id") userId: String) =
+    fun delete(@PathVariable id: UUID, @RequestHeader("X-User-Email") userId: String) =
         service.delete(id, userId)
 
     @PostMapping("/{id}/upload", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
     fun upload(
         @PathVariable id: UUID,
-        @RequestHeader("X-User-Id") userId: String,
+        @RequestHeader("X-User-Email") userId: String,
         @RequestParam("file") file: MultipartFile
     ): VideoResponse = service.upload(id, userId, file).toResponse()
 }

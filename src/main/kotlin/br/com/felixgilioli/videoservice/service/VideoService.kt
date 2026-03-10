@@ -75,8 +75,8 @@ class VideoService(
         return updatedVideo
     }
 
-    fun updateStatus(videoId: UUID, status: VideoStatus, zipUrl: String?) {
+    fun updateStatus(videoId: UUID, status: VideoStatus, zipUrl: String?, firstFrameUrl: String?) {
         val video = findById(videoId)
-        repository.save(video.copy(status = status, zipUrl = zipUrl, updatedAt = LocalDateTime.now()))
+        repository.save(video.copy(status = status, zipUrl = zipUrl, firstFrameUrl = firstFrameUrl, updatedAt = LocalDateTime.now()))
     }
 }

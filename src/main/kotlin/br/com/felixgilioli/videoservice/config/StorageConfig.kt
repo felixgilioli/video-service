@@ -34,6 +34,27 @@ class StorageConfig(private val properties: StorageProperties) {
             client.headBucket { it.bucket(properties.bucket) }
         } catch (e: NoSuchBucketException) {
             client.createBucket { it.bucket(properties.bucket) }
+            setPublicBucketPolicy(client)
+        }
+    }
+
+    private fun setPublicBucketPolicy(client: S3Client) {
+        val policy = """
+        {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Effect": "Allow",
+                    "Principal": "*",
+                    "Action": "s3:GetObject",
+                    "Resource": "arn:aws:s3:::${properties.bucket}/*"
+                }
+            ]
+        }
+    """.trimIndent()
+
+        client.putBucketPolicy {
+            it.bucket(properties.bucket).policy(policy)
         }
     }
 }
