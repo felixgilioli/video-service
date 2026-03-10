@@ -242,7 +242,7 @@ class VideoServiceTest {
         val savedSlot = slot<Video>()
         every { repository.save(capture(savedSlot)) } answers { savedSlot.captured }
 
-        service.updateStatus(id, VideoStatus.READY, "http://zip")
+        service.updateStatus(id, VideoStatus.READY, "http://zip", "http://frame")
 
         verify(exactly = 1) { repository.findById(id) }
         verify(exactly = 1) { repository.save(any()) }
