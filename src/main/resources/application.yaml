@@ -9,7 +9,7 @@ spring:
       max-file-size: 500MB
       max-request-size: 500MB
   datasource:
-    url: jdbc:postgresql://localhost:5433/video_db
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5433/video_db}
     username: postgres
     password: postgres
   jpa:
@@ -51,13 +51,13 @@ management:
           endpoint: ${JAEGER_TRACING_URL:http://localhost:4318/v1/traces}
 
 storage:
-  endpoint: http://localhost:9000
+  endpoint: ${STORAGE_ENDPOINT:http://localhost:9000}
   access-key: minioadmin
   secret-key: minioadmin
   bucket: videos
 
 sqs:
-  endpoint: http://localhost:4566
+  endpoint: ${SQS_ENDPOINT:http://localhost:4566}
   region: us-east-1
   access-key: test
   secret-key: test
