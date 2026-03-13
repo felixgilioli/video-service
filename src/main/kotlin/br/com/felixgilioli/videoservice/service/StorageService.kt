@@ -24,6 +24,8 @@ class StorageService(
                 .build(),
             RequestBody.fromInputStream(file.inputStream, file.size)
         )
-        return "${properties.endpoint}/${properties.bucket}/$key"
+        val endpointUri = java.net.URI.create(properties.endpoint)
+        val publicUrl = "http://localhost:${endpointUri.port}"
+        return "$publicUrl/${properties.bucket}/$key"
     }
 }
